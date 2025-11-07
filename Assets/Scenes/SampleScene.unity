@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 186810744}
   - component: {fileID: 186810743}
   - component: {fileID: 186810742}
+  - component: {fileID: 186810746}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -185,7 +186,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 76cf949bc03457b4c98a43eafa7c908a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -231,6 +232,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &186810746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 186810741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78c004601b792814c88dcbc31a4a58a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WaveSimulation
+  Amplitude: 2
+  Frequency: 0.5
+  Wavelength: 3
 --- !u!1001 &216342251
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -242,6 +258,18 @@ PrefabInstance:
     - target: {fileID: 193520, guid: 979fc5f838d46744aa26f426a3934492, type: 3}
       propertyPath: m_Name
       value: Drone
+      objectReference: {fileID: 0}
+    - target: {fileID: 442520, guid: 979fc5f838d46744aa26f426a3934492, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 442520, guid: 979fc5f838d46744aa26f426a3934492, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 442520, guid: 979fc5f838d46744aa26f426a3934492, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 442520, guid: 979fc5f838d46744aa26f426a3934492, type: 3}
       propertyPath: m_LocalPosition.x
@@ -394,7 +422,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.42, z: -5.64}
+  m_LocalPosition: {x: 0, y: 54.7, z: -5.64}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
