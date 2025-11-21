@@ -16,7 +16,7 @@ public class DroneController : MonoBehaviour
     void Start()
     {
         Drone = GetComponent<Rigidbody>();
-        F = 30f;
+        F = 10f;
         FloatingConst = 9.81f;
     }
 
@@ -25,65 +25,35 @@ public class DroneController : MonoBehaviour
     {  
         float angle = Vector3.Angle(transform.up, Vector3.up);
         float thrust_force = (Drone.mass * FloatingConst) / Mathf.Cos(angle * Mathf.Deg2Rad);
-        Drone.AddForce(transform.up * thrust_force);
-
-        if(Input.anyKey == false)
-        {
-            Quaternion targetRotation = Quaternion.Euler(0, 0, 0);
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
-
-        }
-
-        if (Input.GetKey(KeyCode.W) == true)
-        {
-            
-            Drone.AddForce(Vector3.up * F);
-        }
-
-        if (Input.GetKey(KeyCode.S) == true)
-        {
-           
-            Drone.AddForce(Vector3.down * F);
-    
-        }
-
-        if (Input.GetKey(KeyCode.UpArrow) == true)
-        {
-            Quaternion targetRotation = Quaternion.Euler(30f, Drone.rotation.eulerAngles.y, Drone.rotation.eulerAngles.z);
-            Quaternion newRotation = Quaternion.Lerp(Drone.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
-            Drone.MoveRotation(newRotation);
-            
-            Drone.AddForce(Vector3.forward * F);
-        }
-
-        if (Input.GetKey(KeyCode.DownArrow) == true)
-        {
-            Quaternion targetRotation = Quaternion.Euler(-30f, Drone.rotation.eulerAngles.y, Drone.rotation.eulerAngles.z);
-            Quaternion newRotation = Quaternion.Lerp(Drone.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
-            Drone.MoveRotation(newRotation);
-            
-            Drone.AddForce(Vector3.back * F);
-            
-        }
-
-        if (Input.GetKey(KeyCode.RightArrow) == true)
-        {
-            Quaternion targetRotation = Quaternion.Euler(Drone.rotation.eulerAngles.x, Drone.rotation.eulerAngles.y, -30f);
-            Quaternion newRotation = Quaternion.Lerp(Drone.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
-            Drone.MoveRotation(newRotation);
-            
-            Drone.AddForce(Vector3.right * F);
-
-        }
         
-        if (Input.GetKey(KeyCode.LeftArrow) == true)
-        {
-            Quaternion targetRotation = Quaternion.Euler(Drone.rotation.eulerAngles.x, Drone.rotation.eulerAngles.y, 30f);
-            Quaternion newRotation = Quaternion.Lerp(Drone.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
-            Drone.MoveRotation(newRotation);
-            Drone.AddForce(Vector3.left * F);
 
+        if (Input.GetKey(KeyCode.W))
+        {
+            thrust_force += F;  
         }
+
+        if (Input.GetKey(KeyCode.S))
+        {
+            thrust_force -= F;    
+        }
+
+        float targetX = 0f;
+        if (Input.GetKey(KeyCode.UpArrow))     targetX = 40f;
+        if (Input.GetKey(KeyCode.DownArrow))   targetX = -40f;
+
+        float targetZ = 0f;
+        if (Input.GetKey(KeyCode.LeftArrow))   targetZ = 40f;
+        if (Input.GetKey(KeyCode.RightArrow))  targetZ = -40f;
+
+        
+        float yaw = Drone.rotation.eulerAngles.y;
+
+        
+        Quaternion targetRot = Quaternion.Euler(targetX, yaw, targetZ);
+        Quaternion newRot = Quaternion.Lerp(Drone.rotation, targetRot, rotationSpeed * Time.fixedDeltaTime);
+
+        Drone.MoveRotation(newRot);
+        Drone.AddForce(transform.up * thrust_force);
         
     }
 }
