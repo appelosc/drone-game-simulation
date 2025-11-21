@@ -10,7 +10,6 @@ public class DroneController : MonoBehaviour
 
     float rotationSpeed = 3f;
 
-    float thrust_force;
 
     Rigidbody Drone;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
