@@ -49,11 +49,11 @@ public class DroneController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.UpArrow) == true)
         {
-            Quaternion targetRotation = Quaternion.Euler(30f, Drone.rotation.eulerAngles.y, Drone.rotation.eulerAngles.z);
+            Quaternion targetRotation = Quaternion.Euler(40f, Drone.rotation.eulerAngles.y, Drone.rotation.eulerAngles.z);
             Quaternion newRotation = Quaternion.Lerp(Drone.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
             Drone.MoveRotation(newRotation);
             
-            Drone.AddForce(Vector3.forward * F);
+            //Drone.AddForce(Vector3.forward * F);
         }
 
         if (Input.GetKey(KeyCode.DownArrow) == true)
