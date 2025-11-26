@@ -1,5 +1,6 @@
 
 using UnityEngine;
+using TMPro;
 
 public class DroneController : MonoBehaviour
 {
@@ -10,21 +11,82 @@ public class DroneController : MonoBehaviour
 
     float rotationSpeed = 3f;
 
+    float thrust_level;
+
+    public TMP_Text thrustText;
+
 
     Rigidbody Drone;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    
+    
+
+    private bool qPressed = false;
+    private bool ePressed = false;
+    private bool rPressed = false;
+
+    
     void Start()
     {
         Drone = GetComponent<Rigidbody>();
         F = 10f;
         FloatingConst = 9.81f;
+        thrust_level = 1.0f;
+        UpdateText();
     }
 
-    // Update is called once per frame
+    void Update()
+    {
+        
+        
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            qPressed = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            ePressed = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            rPressed = true;
+        }
+    }
+
+    
+
+    
+
+
     void FixedUpdate()
     {  
         float angle = Vector3.Angle(transform.up, Vector3.up);
-        float thrust_force = (Drone.mass * FloatingConst) / Mathf.Cos(angle * Mathf.Deg2Rad);
+
+        
+        if(qPressed) 
+        {
+            thrust_level += 10f;
+            qPressed = false; 
+        }
+        
+        if(ePressed) 
+        {
+            thrust_level -= 10f;
+            ePressed = false; 
+        }
+        
+        if(rPressed) 
+        {
+            thrust_level = Drone.mass * FloatingConst;
+            rPressed = false;
+        }
+            
+
+        float thrust_force = (thrust_level * FloatingConst) / Mathf.Cos(angle * Mathf.Deg2Rad);
+
+        UpdateText();
         
 
         if (Input.GetKey(KeyCode.W))
@@ -36,6 +98,9 @@ public class DroneController : MonoBehaviour
         {
             thrust_force -= F;    
         }
+
+        
+        
 
         float targetX = 0f;
         if (Input.GetKey(KeyCode.UpArrow))     targetX = 40f;
@@ -55,5 +120,12 @@ public class DroneController : MonoBehaviour
         Drone.MoveRotation(newRot);
         Drone.AddForce(transform.up * thrust_force);
         
+    }
+    void UpdateText()
+    {
+        
+        thrustText.text = "Load weight: " + (thrust_level-1) + "kg";
+        
+    
     }
 }

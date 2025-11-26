@@ -9,8 +9,8 @@ public class PropellerSpin : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        
+        transform.Rotate(0f, 0f, 1000f * Time.deltaTime);
     }
 }
