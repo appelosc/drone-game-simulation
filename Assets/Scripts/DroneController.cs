@@ -14,6 +14,7 @@ public class DroneController : MonoBehaviour
     float thrust_level;
 
     public TMP_Text thrustText;
+    public Rigidbody magnetMass;
 
 
     Rigidbody Drone;
@@ -32,6 +33,7 @@ public class DroneController : MonoBehaviour
         F = 10f;
         FloatingConst = 9.81f;
         thrust_level = 1.0f;
+
         UpdateText();
     }
 
@@ -62,29 +64,30 @@ public class DroneController : MonoBehaviour
 
     void FixedUpdate()
     {  
+        Drone.mass = 1.0f + (magnetMass.mass-1.0f);
         float angle = Vector3.Angle(transform.up, Vector3.up);
 
         
         if(qPressed) 
         {
-            thrust_level += 10f;
+            thrust_level += 1f;
             qPressed = false; 
         }
         
         if(ePressed) 
         {
-            thrust_level -= 10f;
+            thrust_level -= 1f;
             ePressed = false; 
         }
         
         if(rPressed) 
         {
-            thrust_level = Drone.mass * FloatingConst;
+            thrust_level = 1f;
             rPressed = false;
         }
             
 
-        float thrust_force = (thrust_level * FloatingConst) / Mathf.Cos(angle * Mathf.Deg2Rad);
+        float thrust_force = (thrust_level * FloatingConst)/ Mathf.Cos(angle * Mathf.Deg2Rad);
 
         UpdateText();
         
@@ -119,6 +122,7 @@ public class DroneController : MonoBehaviour
 
         Drone.MoveRotation(newRot);
         Drone.AddForce(transform.up * thrust_force);
+        
         
     }
     void UpdateText()

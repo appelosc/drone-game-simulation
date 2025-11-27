@@ -54,6 +54,8 @@ public class RopeScript : MonoBehaviour
             if (i == 1)
             {
                 currentRb.AddForce(F);
+                float newton = F.magnitude;
+                Debug.Log("Force in rope: " + newton + " N");
             }
             else
             {
