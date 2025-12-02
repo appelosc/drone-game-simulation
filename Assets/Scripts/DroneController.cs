@@ -4,6 +4,7 @@ using TMPro;
 
 public class DroneController : MonoBehaviour
 {
+    
 
     float F;
 
@@ -35,6 +36,7 @@ public class DroneController : MonoBehaviour
         thrust_level = 1.0f;
 
         UpdateText();
+        
     }
 
     void Update()
@@ -64,7 +66,6 @@ public class DroneController : MonoBehaviour
 
     void FixedUpdate()
     {  
-        Drone.mass = 1.0f + (magnetMass.mass-1.0f);
         float angle = Vector3.Angle(transform.up, Vector3.up);
 
         
@@ -128,7 +129,7 @@ public class DroneController : MonoBehaviour
     void UpdateText()
     {
         
-        thrustText.text = "Load weight: " + (thrust_level-1) + "kg";
+        thrustText.text = "Load weight: " + ((thrust_level-1)*10) + "kg";
         
     
     }

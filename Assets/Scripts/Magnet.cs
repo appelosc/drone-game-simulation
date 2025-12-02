@@ -4,11 +4,12 @@ public class Magnet : MonoBehaviour
 {
     public GameObject[] myBox;
 
-    Rigidbody magnet;
+
+    Rigidbody Drone;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        magnet = GetComponent<Rigidbody>();
+        Drone = GameObject.Find("Drone").GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -22,18 +23,19 @@ public class Magnet : MonoBehaviour
             Vector3 direction = transform.position - myBox[i].transform.position;
             float distance = direction.magnitude;
             Rigidbody boxRb = myBox[i].GetComponent<Rigidbody>();
+            
             if(Input.GetKey(KeyCode.Space)==true)
             {
                 realeaseBox(myBox[i]);
             }
             
-            if(distance < 3f && Input.GetKey(KeyCode.Space)==false)
+            if(distance < 5f && Input.GetKey(KeyCode.Space)==false)
                 {
                     AttachBox(boxRb.gameObject);
                 }
             else if(distance < 10f && Input.GetKey(KeyCode.Space)==false)
             {
-                Vector3 force = direction.normalized * (10f-distance)*5f;
+                Vector3 force = direction.normalized * (10f-distance)*5f * boxRb.mass;;
                 boxRb.AddForce(force);
             }
 
@@ -52,7 +54,7 @@ public class Magnet : MonoBehaviour
         }
         FixedJoint joint = box.AddComponent<FixedJoint>();
         joint.connectedBody = GetComponent<Rigidbody>();
-        magnet.mass += box.GetComponent<Rigidbody>().mass;
+        Drone.mass += box.GetComponent<Rigidbody>().mass;
 
 
         box.transform.position = transform.position;
@@ -64,7 +66,7 @@ public class Magnet : MonoBehaviour
         if(joint != null)
         {
             Destroy(joint);
-            magnet.mass -= box.GetComponent<Rigidbody>().mass;
+            Drone.mass -= box.GetComponent<Rigidbody>().mass;
         }
     }   
 }

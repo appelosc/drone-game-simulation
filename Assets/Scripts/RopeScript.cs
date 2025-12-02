@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class RopeScript : MonoBehaviour
@@ -7,6 +8,9 @@ public class RopeScript : MonoBehaviour
     public GameObject[] myVertexes;
 
     public float k;
+    float newton;
+
+    Boolean breakRope = false;
 
     GameObject previousObj;
 
@@ -19,6 +23,8 @@ public class RopeScript : MonoBehaviour
     float[] restLengths;
 
     Vector3 F;
+
+    public float initialRestLength = 0.5f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -28,16 +34,30 @@ public class RopeScript : MonoBehaviour
 
         restLengths = new float[myVertexes.Length - 1];
 
-    for (int i = 1; i < myVertexes.Length; i++)
+    for (int i = 0; i < restLengths.Length; i++)
     {
-        Vector3 delta = myVertexes[i - 1].transform.position - myVertexes[i].transform.position;
-        restLengths[i - 1] = delta.magnitude;
+        restLengths[i] = initialRestLength;
     }
         
     }
 
     // Update is called once per frame
     void FixedUpdate()
+    {
+        if(breakRope) return;
+
+        RopeGenerator();
+
+        if(newton > 200f)
+        {
+        breakRope = true;
+        Debug.Log("Rope broke!");
+        lr.GameObject().SetActive(false);
+        }
+        
+    }
+
+    void RopeGenerator()
     {
         for(int i =1; i < myVertexes.Length; i++)
         {
@@ -54,8 +74,10 @@ public class RopeScript : MonoBehaviour
             if (i == 1)
             {
                 currentRb.AddForce(F);
-                float newton = F.magnitude;
-                Debug.Log("Force in rope: " + newton + " N");
+                
+                newton = F.magnitude;
+                //Debug.Log("Force in rope: " + newton + " N");
+                
             }
             else
             {
@@ -70,6 +92,7 @@ public class RopeScript : MonoBehaviour
         {
             lr.SetPosition(i, myVertexes[i].transform.position);
         }
-        
     }
 }
+
+
