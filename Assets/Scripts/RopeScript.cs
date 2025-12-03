@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -10,7 +11,9 @@ public class RopeScript : MonoBehaviour
     public float k;
     float newton;
 
-    Boolean breakRope = false;
+    int IndexofBreak =-1;
+    
+    public TMP_Text forceText;
 
     GameObject previousObj;
 
@@ -44,23 +47,18 @@ public class RopeScript : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(breakRope) return;
-
         RopeGenerator();
-
-        if(newton > 200f)
-        {
-        breakRope = true;
-        Debug.Log("Rope broke!");
-        lr.GameObject().SetActive(false);
-        }
-        
     }
 
     void RopeGenerator()
     {
+        float maxForceThisFrame = 0f;
         for(int i =1; i < myVertexes.Length; i++)
         {
+            if (IndexofBreak != -1 && IndexofBreak < i) 
+            {
+                break; 
+            }
             currentObj = myVertexes[i];
             previousObj = myVertexes[i - 1];
             Rigidbody currentRb = currentObj.GetComponent<Rigidbody>();
@@ -71,12 +69,23 @@ public class RopeScript : MonoBehaviour
 
             F = k * (currentLenght - restLengths[i-1])*direction;
 
+            float currentForceMagnitude = F.magnitude;
+            if (currentForceMagnitude > maxForceThisFrame)
+            {
+                maxForceThisFrame = currentForceMagnitude;
+            }
+            
+            if(F.magnitude > 200f)
+            {
+                IndexofBreak = i;
+                Debug.Log("Rope broke at index: " + IndexofBreak);
+                continue;
+            }
             if (i == 1)
             {
                 currentRb.AddForce(F);
-                
                 newton = F.magnitude;
-                //Debug.Log("Force in rope: " + newton + " N");
+                Debug.Log("Force in rope: " + newton + " N");
                 
             }
             else
@@ -88,10 +97,25 @@ public class RopeScript : MonoBehaviour
 
         }
 
-        for(int i =0; i < myVertexes.Length; i++)
+        int renderLength = myVertexes.Length;
+        if (IndexofBreak != -1)
+        {
+            renderLength = IndexofBreak; 
+        }
+        lr.positionCount = renderLength; 
+        for(int i =0; i < renderLength; i++)
         {
             lr.SetPosition(i, myVertexes[i].transform.position);
         }
+        UpdateForceText(maxForceThisFrame);
+    }
+
+    void UpdateForceText(float Force)
+    {
+        
+        forceText.text = "Max Force: 200N "+ "\n" + "Current Force: " + Force + " N";
+        
+    
     }
 }
 
