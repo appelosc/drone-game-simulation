@@ -1,8 +1,10 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Magnet : MonoBehaviour
 {
-    public GameObject[] myBox;
+
+    public List<GameObject> myBox;
 
 
     Rigidbody Drone;
@@ -12,13 +14,24 @@ public class Magnet : MonoBehaviour
         Drone = GameObject.Find("Drone").GetComponent<Rigidbody>();
     }
 
+    public void RemoveBox(GameObject box)
+    {
+        myBox.Remove(box);
+
+        
+        if (myBox.Count == 0)
+        {
+            Debug.Log("Du vann spelet är slut");
+        }
+    }
+
     // Update is called once per frame
 
     //Räknar ut avstånd mellan magneten och boxarna och applicerar en dragningskraft
     //när boxen är tillräckligt nära så klamrar den fast boxen till drönaren
     void FixedUpdate()
     {   
-        for(int i=0; i < myBox.Length; i++)
+        for(int i=0; i < myBox.Count; i++)
         {
             Vector3 direction = transform.position - myBox[i].transform.position;
             float distance = direction.magnitude;

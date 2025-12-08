@@ -78,14 +78,14 @@ public class RopeScript : MonoBehaviour
             if(F.magnitude > 200f)
             {
                 IndexofBreak = i;
-                Debug.Log("Rope broke at index: " + IndexofBreak);
+                //Debug.Log("Rope broke at index: " + IndexofBreak);
                 continue;
             }
             if (i == 1)
             {
                 currentRb.AddForce(F);
                 newton = F.magnitude;
-                Debug.Log("Force in rope: " + newton + " N");
+               // Debug.Log("Force in rope: " + newton + " N");
                 
             }
             else
