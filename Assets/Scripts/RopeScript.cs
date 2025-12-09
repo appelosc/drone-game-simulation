@@ -75,7 +75,7 @@ public class RopeScript : MonoBehaviour
                 maxForceThisFrame = currentForceMagnitude;
             }
             
-            if(F.magnitude > 200f)
+            if(F.magnitude > 1000f)
             {
                 IndexofBreak = i;
                 //Debug.Log("Rope broke at index: " + IndexofBreak);

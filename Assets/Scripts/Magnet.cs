@@ -1,10 +1,15 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
+using UnityEngine.SceneManagement;
 
 public class Magnet : MonoBehaviour
 {
 
     public List<GameObject> myBox;
+
+    bool gaming = true;
+    public static float timeElapsed = 0f;
 
 
     Rigidbody Drone;
@@ -12,8 +17,21 @@ public class Magnet : MonoBehaviour
     void Start()
     {
         Drone = GameObject.Find("Drone").GetComponent<Rigidbody>();
+        //Random spawn av boxar på havet
+        for(int i = 0; i < myBox.Count; i++)
+        {
+            myBox[i].transform.position = new Vector3(Random.Range(-100f,180f),20f,Random.Range(-150f,80f));
+        }
     }
-
+    void Update()
+    {
+        if(gaming)
+        {
+            timeElapsed += Time.deltaTime;
+            
+        }
+    }
+    //Tar bort boxen från listan när den är levererad, refereras i DropOff scriptet.
     public void RemoveBox(GameObject box)
     {
         myBox.Remove(box);
@@ -22,10 +40,14 @@ public class Magnet : MonoBehaviour
         if (myBox.Count == 0)
         {
             Debug.Log("Du vann spelet är slut");
+            StopTimer();
+            
+            SceneManager.LoadScene("ResultScene");
         }
     }
 
     // Update is called once per frame
+    
 
     //Räknar ut avstånd mellan magneten och boxarna och applicerar en dragningskraft
     //när boxen är tillräckligt nära så klamrar den fast boxen till drönaren
@@ -81,5 +103,9 @@ public class Magnet : MonoBehaviour
             Destroy(joint);
             Drone.mass -= box.GetComponent<Rigidbody>().mass;
         }
+    }
+    void StopTimer()
+    {
+        gaming = false;
     }   
 }

@@ -4,6 +4,8 @@ using UnityEngine;
 public class DropOff : MonoBehaviour
 {   
     public Magnet magnet;
+
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -11,10 +13,7 @@ public class DropOff : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
     void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.tag == "Box")
@@ -23,4 +22,5 @@ public class DropOff : MonoBehaviour
             Destroy(collision.gameObject);
         }
     }
+    
 }
