@@ -10,9 +10,11 @@ public class Magnet : MonoBehaviour
 
     bool gaming = true;
     public static float timeElapsed = 0f;
-
-
     Rigidbody Drone;
+    void Awake()
+    {
+    timeElapsed = 0f;
+    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -24,7 +26,7 @@ public class Magnet : MonoBehaviour
         }
     }
     void Update()
-    {
+    {   //timer
         if(gaming)
         {
             timeElapsed += Time.deltaTime;
@@ -66,11 +68,12 @@ public class Magnet : MonoBehaviour
             
             if(distance < 5f && Input.GetKey(KeyCode.Space)==false)
                 {
+                   
                     AttachBox(boxRb.gameObject);
                 }
             else if(distance < 10f && Input.GetKey(KeyCode.Space)==false)
             {
-                Vector3 force = direction.normalized * (10f-distance)*5f * boxRb.mass;;
+                Vector3 force = direction.normalized * (10f-distance)*3f * boxRb.mass;
                 boxRb.AddForce(force);
             }
 

@@ -19,7 +19,7 @@ public class DropOff : MonoBehaviour
         if(collision.gameObject.tag == "Box")
         {
             magnet.RemoveBox(collision.gameObject);
-            Destroy(collision.gameObject);
+            
         }
     }
     
