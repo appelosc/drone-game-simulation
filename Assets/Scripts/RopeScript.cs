@@ -77,7 +77,7 @@ public class RopeScript : MonoBehaviour
                 maxForceThisFrame = currentForceMagnitude;
             }
             //om kraften i repet överstiger 200N så går repet av
-            if(F.magnitude > 200f)
+            if(F.magnitude > 200f && i!=6) // undviker att repet går av vid sista sfären AKA magneten
             {
                 IndexofBreak = i;
                 Debug.Log("Rope broke at index: " + IndexofBreak);
